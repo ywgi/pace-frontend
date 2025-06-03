@@ -1,6 +1,5 @@
 import Footer from "../Components/Footer";
 import Header from "../Components/Header";
-import fjoutline from '../assets/fjoutline.png'
 import afwnbg from '../assets/af-white-nbg.png'
 
 const HowToPage = () => {
