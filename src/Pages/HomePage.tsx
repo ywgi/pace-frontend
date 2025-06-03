@@ -1,10 +1,12 @@
+import { Link } from "react-router-dom";
+import CountUp from "../Components/CountUp";
 import Footer from "../Components/Footer";
 import Header from "../Components/Header";
 // import f22sImage from '../assets/f22s.jpg'; // Adjust the path if needed
 // import fighters from '../assets/fighters.jpg'
 import fighters2 from '../assets/fighters2.jpg'
 
-import { ChartSpline, SendHorizontal, Zap } from "lucide-react";
+import { ChartSpline, SendHorizontal, Zap, CircleArrowRight } from "lucide-react";
 
 
 const HomePage = () => {
@@ -12,7 +14,7 @@ const HomePage = () => {
     return(
             <div className="flex flex-col min-h-screen">
                 <Header />
-                <main className="flex-grow">
+                <main className="flex-grow pt-20">
                     <div className="flex flex-col items-center w-full">
                         <div className="relative w-full h-[40vh]">
                             <img 
@@ -29,8 +31,8 @@ const HomePage = () => {
                                 <h1 className="text-5xl font-poppins tracking-widest text-[#137bec]">Features</h1>
                             </div>
                             <div className="flex justify-center items-center space-x-10 py-12">
-                                <div className="w-[20vw] max-w-[400px] flex flex-col justify-center items-center space-y-8 py-4">
-                                    <ChartSpline className="hover:scale-110"/>
+                                <div className="w-[20vw] max-w-[400px] flex flex-col justify-center items-center space-y-8 py-4 rounded-xl hover:shadow-xl transition-shadow duration-300">
+                                    <ChartSpline />
                                     <div className="flex flex-col justify-center items-center space-y-4">
                                         <h1 className="font-poppins text-xl">Upload rosters <i>Instantly</i></h1>
                                         <p className="max-w-[75%] flex justify-center items-center text-center font-inter">
@@ -38,8 +40,8 @@ const HomePage = () => {
                                         </p>
                                     </div>
                                 </div>
-                                <div className="w-[20vw] max-w-[400px] flex flex-col justify-center items-center text-center space-y-8 py-4">
-                                    <SendHorizontal className="hover:scale-110"/>
+                                <div className="w-[20vw] max-w-[400px] flex flex-col justify-center items-center text-center space-y-8 py-4 rounded-xl hover:shadow-xl transition-shadow duration-300">
+                                    <SendHorizontal />
                                     <div className="flex flex-col justify-center items-center space-y-6">
                                         <h1 className="font-poppins text-xl">Built-In Smart Filtering</h1>
                                         <p className="max-w-[75%] flex justify-center items-center font-inter">
@@ -47,8 +49,8 @@ const HomePage = () => {
                                         </p>
                                     </div>
                                 </div>
-                                <div className="w-[20vw] max-w-[400px] flex flex-col justify-center items-center text-center space-y-8 py-4">
-                                    <Zap className="hover:scale-110"/>
+                                <div className="w-[20vw] max-w-[400px] flex flex-col justify-center items-center text-center space-y-8 py-4 rounded-xl hover:shadow-xl transition-shadow duration-300">
+                                    <Zap />
                                     <div className="flex flex-col justify-center items-center space-y-4">
                                         <h1 className="font-poppins text-xl">Choose Promotion Cycle & Year</h1>
                                         <p className="max-w-[75%] flex justify-center items-center font-inter">
@@ -57,40 +59,87 @@ const HomePage = () => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="w-full h-96 bg-blue-950 flex justify-center">
-                            <div className="w-full h-full max-w-[80vw] flex flex-col justify-center items-center py-4 space-y-6">
-                                <h1 className="font-poppins font-bold text-3xl text-white tracking-wide ">Personnel & Administrative Collaboration Engine (PACE)</h1>
-                                <p className="font-poppins text-gray-300 max-w-[650px] text-center leading-relaxed">Our mission is to provide a modern technological solution to archaic processes, streamlining efforts and reducing time to complete tasks throughout personnel and administrative systems throughout the Air Force.</p>
-                                <button className="font-poppins rounded-3xl bg-white px-4 py-3 hover:scale-110 transition-transform duration-300">
-                                    Learn More
-                                </button>
+                            <div className="flex justify-center items-center">
+                                <Link to="/how-to" >
+                                    <button className="font-poppins text-white rounded-3xl bg-blue-950 px-4 py-3 hover:scale-110 transition-transform duration-300">Learn How</button>
+                                </Link>
                             </div>
                         </div>
-                        <div className="h-[40vh] w-full flex items-center justify-center">
-                            <div className="w-full h-full max-w-[80vw] flex">
-                                <div className="w-1/3 flex items-center justify-center bg-red-400">
-                                    <div className="h-[80%] w-[80%] rounded-lg border-2 border-black">
-
+                        <div className="w-full h-[40vh] bg-blue-950 flex justify-center">
+                            <div className="w-full h-full max-w-[80vw] flex flex-col justify-center items-center py-4 space-y-10">
+                                <h1 className="font-poppins font-bold text-3xl text-white tracking-wide ">Personnel & Administrative Collaboration Engine (PACE)</h1>
+                                <p className="font-poppins text-gray-300 max-w-[650px] text-center leading-relaxed">Our mission is to provide a modern technological solution to archaic processes, streamlining efforts and reducing time to complete tasks throughout personnel and administrative systems throughout the Air Force.</p>
+                                <Link to="/about-us">
+                                    <button className="font-poppins rounded-3xl bg-white px-4 py-3 hover:scale-110 transition-transform duration-300">
+                                        Learn More
+                                    </button>
+                                </Link>
+                            </div>
+                        </div>
+                        <div className="h-[40vh] w-full bg-gray-100 flex flex-col justify-center items-center py-8">
+                            <div className="flex justify-center items-center">
+                                <h1 className="font-poppins tracking-wide text-[4rem] text-[#137bec]">The Stats</h1>
+                            </div>
+                            <div className="w-full h-full max-w-[70vw] flex">
+                                <div className="w-1/3 flex justify-center items-center">
+                                    <div className="h-[80%] w-[80%] bg-white flex flex-col justify-center items-center space-y-10 rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.1)] hover:scale-105 transition-transform duration-300">
+                                        <CountUp target={1} />
+                                        <p className="font-poppins font-semibold text-2xl">Bases Automating MELs</p>
                                     </div>
                                 </div>
-                                <div className="w-1/3 flex items-center justify-center bg-cyan-400">
-                                    <div className="h-[80%] w-[80%] rounded-lg border-2 border-black">
-
+                                <div className="w-1/3 flex justify-center items-center">
+                                    <div className="h-[80%] w-[80%] bg-white flex flex-col justify-center items-center space-y-10 rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.1)] hover:scale-105 transition-transform duration-300">
+                                        <CountUp target={70} />
+                                        <p className="font-poppins font-semibold text-2xl">MEL documents processed</p>
                                     </div>
                                 </div>
-                                <div className="w-1/3 flex items-center justify-center bg-green-600">
-                                    <div className="h-[80%] w-[80%] rounded-lg border-2 border-black">
-
+                                <div className="w-1/3 flex justify-center items-center">
+                                    <div className="h-[80%] w-[80%] bg-white flex flex-col justify-center items-center space-y-10 rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.1)] hover:scale-105 transition-transform duration-300">
+                                        <span className="font-poppins font-semibold text-6xl">$<CountUp target={2317590}/></span>
+                                        <p className="font-poppins font-semibold text-2xl">Estimated Yearly Savings</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div 
-                            className="flex w-full h-[50vh] bg-cover bg-center" 
+                            className="relative flex w-full h-[50vh] bg-cover bg-center" 
                             style={{ backgroundImage: "url('/src/assets/tech-bg.jpg')" }}
                             >
-                            Content over background image
+
+                            <div className="absolute inset-0 bg-black/50 flex justify-center items-center">
+                                <div className="h-[80%] w-[60%] flex">
+                                    <div className="flex flex-col w-[50%] ">
+                                        <div className="w-full h-[15%] flex items-center">
+                                            <h1 className="flex items-center font-sans font-bold text-white text-4xl">Here to serve</h1>
+                                        </div>
+                                        <div className="w-full h-[20%] *:flex items-center">
+                                            <h2 className="flex items-center font-poppins text-white text-xl">
+                                                Our goal is to increase the quality of life for active service members by 
+                                                automating redundant tasks like document generation and other aged processes.
+                                            </h2>
+                                        </div>
+                                        <div className="w-full h-[70%] flex flex-col pt-8">
+                                            <ul className="space-y-4">
+                                                <li className="text-white flex items-center space-x"><CircleArrowRight className="text-white w-8 h-8" />&nbsp; Submit suggestions for site expansion</li>
+                                                <li className="text-white flex items-center space-x"><CircleArrowRight className="text-white w-8 h-8" />&nbsp; Report bugs so we can provide the best service possible</li>
+                                                <li className="text-white flex items-center space-x"><CircleArrowRight className="text-white w-8 h-8" />&nbsp;</li>
+                                            </ul>
+
+                                            
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-col w-[50%] bg-red-500">
+                                        <div className="flex justify-center items-center">
+                                            <div className="">
+
+                                            </div>
+                                        </div>
+                                        <div className="flex">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </main>

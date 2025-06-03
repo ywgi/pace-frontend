@@ -3,7 +3,7 @@ import fighterOutline from '../assets/fjoutline.png'
 
 const Footer = () => {
     return(
-        <footer className="h-80 w-full bg-[#137bec] bottom-0 flex flex-col justify-center items-center">
+        <footer className="h-80 w-full bg-blue-950 bottom-0 flex flex-col justify-center items-center">
             <div className="flex w-[80vw] max-w-[900px]">
                 <div className="flex flex-col justify-center items-center w-[33%] space-y-3">
                     <p className="font-bold font-poppins text-3xl text-white tracking-wider">Learn</p>
@@ -36,11 +36,6 @@ const Footer = () => {
                 <div className='flex justify-center items-center w-[100%]'>
                     <h1 className='font-military text-white tracking-widest text-5xl'><span className='font-sans'>© </span>PACE</h1>
                 </div>
-                {/* <div className='flex justify-end items-center w-[50%]'>
-                    <p className='text-xl text-white font-poppins'>
-                        Copyright PACE 2025
-                    </p>
-                </div> */}
             </div>
         </footer>
     );
