@@ -21,14 +21,6 @@ import { Link } from "react-router-dom";
 
 const FinalMelPage = () => {
 
-    const doThing = async () => {
-        fetch("http://localhost:8000/api/ping")
-        .then(res => res.json())
-        .then(console.log)
-        .catch(console.error);
-    }
-
-
     return (
         <div className="flex flex-col min-h-screen">
             <Header />
@@ -46,10 +38,6 @@ const FinalMelPage = () => {
                             <p className="text-lg text-gray-600">
                                 We're working hard to bring you the next evolution in military data processing.
                             </p>
-
-                            <button onClick={doThing}>
-                                test
-                            </button>
                             
                             <Link 
                                 to="/documents/initial-mel" 
