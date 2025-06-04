@@ -232,7 +232,7 @@ const AboutUsPage = () => {
                             Join us in revolutionizing Air Force administrative processes. Start with our Initial Mel system today.
                         </p>
                         <Link 
-                            to="/initial-mel" 
+                            to="/documents/initial-mel" 
                             className="inline-block bg-white text-[#137bec] px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
                         >
                             Get Started Now

@@ -105,41 +105,56 @@ const HomePage = () => {
                             className="relative flex w-full h-[50vh] bg-cover bg-center" 
                             style={{ backgroundImage: "url('/src/assets/tech-bg.jpg')" }}
                             >
-
                             <div className="absolute inset-0 bg-black/50 flex justify-center items-center">
-                                <div className="h-[80%] w-[60%] flex">
-                                    <div className="flex flex-col w-[50%] ">
-                                        <div className="w-full h-[15%] flex items-center">
-                                            <h1 className="flex items-center font-sans font-bold text-white text-4xl">Here to serve</h1>
-                                        </div>
-                                        <div className="w-full h-[20%] *:flex items-center">
-                                            <h2 className="flex items-center font-poppins text-white text-xl">
-                                                Our goal is to increase the quality of life for active service members by 
-                                                automating redundant tasks like document generation and other aged processes.
-                                            </h2>
-                                        </div>
-                                        <div className="w-full h-[70%] flex flex-col pt-8">
-                                            <ul className="space-y-4">
-                                                <li className="text-white flex items-center space-x"><CircleArrowRight className="text-white w-8 h-8" />&nbsp; Submit suggestions for site expansion</li>
-                                                <li className="text-white flex items-center space-x"><CircleArrowRight className="text-white w-8 h-8" />&nbsp; Report bugs so we can provide the best service possible</li>
-                                                <li className="text-white flex items-center space-x"><CircleArrowRight className="text-white w-8 h-8" />&nbsp;</li>
-                                            </ul>
-
-                                            
-                                        </div>
+                                <div className="h-[80%] w-[90%] max-w-7xl flex flex-col md:flex-row rounded-2xl overflow-hidden shadow-lg backdrop-blur-sm">
+                                    
+                                    {/* Left Panel */}
+                                    <div className="flex flex-col w-full md:w-1/2 p-6 md:p-10">
+                                    <div className="mb-4">
+                                        <h1 className="font-sans font-bold text-white text-4xl md:text-5xl">Here to Serve</h1>
                                     </div>
-                                    <div className="flex flex-col w-[50%] bg-red-500">
-                                        <div className="flex justify-center items-center">
-                                            <div className="">
 
-                                            </div>
-                                        </div>
-                                        <div className="flex">
-
-                                        </div>
+                                    <div className="mb-6">
+                                        <h2 className="font-poppins text-white text-lg md:text-xl leading-relaxed">
+                                        Our mission is to improve the quality of life for active service members
+                                        by automating redundant tasks like document generation and streamlining
+                                        outdated processes.
+                                        </h2>
                                     </div>
+
+                                    <ul className="space-y-4">
+                                        <li className="text-white flex items-center">
+                                        <CircleArrowRight className="text-white w-6 h-6 mr-3" />
+                                        Submit suggestions for site expansion
+                                        </li>
+                                        <li className="text-white flex items-center">
+                                        <CircleArrowRight className="text-white w-6 h-6 mr-3" />
+                                        Report bugs so we can provide the best service possible
+                                        </li>
+                                        <li className="text-white flex items-center">
+                                        <CircleArrowRight className="text-white w-6 h-6 mr-3" />
+                                        Help us expand to more bases
+                                        </li>
+                                    </ul>
+                                    </div>
+
+                                    {/* Right Panel (Red box replacement) */}
+                                    <div className="flex flex-col w-full md:w-1/2 backdrop-blur-sm p-6 md:p-10 text-white">
+                                    <div className="flex-1 flex flex-col justify-center items-center text-center">
+                                        <h2 className="text-3xl font-bold mb-4">Get Involved</h2>
+                                        <p className="text-lg mb-6 max-w-md">
+                                        Whether you're active duty, a developer, or a supporter — your input matters.
+                                        Join us in shaping tools that actually make your life easier.
+                                        </p>
+                                        <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl transition-all duration-300">
+                                        Join Our Mission
+                                        </button>
+                                    </div>
+                                    </div>
+
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </main>

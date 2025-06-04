@@ -24,10 +24,10 @@ const Footer = () => {
                     <p className="font-bold font-poppins text-2xl text-white text-center">Document Generators</p>
                     <ul>
                         <Link to="/documents/initial-mel">
-                            <li className='font-poppins text-gray-300 hover:text-gray-100'>Initial MEL</li>
+                            <li className='font-poppins text-gray-300 hover:text-gray-100 hover:scale-110 before:transition-transform duration-300'>Initial MEL</li>
                         </Link>
                         <Link to="/documents/final-mel">
-                            <li className='font-poppins text-gray-300 hover:text-gray-100'>Final MEL</li>
+                            <li className='font-poppins text-gray-300 hover:text-gray-100 hover:scale-110 before:transition-transform duration-300'>Final MEL</li>
                         </Link>
                     </ul>
                 </div>

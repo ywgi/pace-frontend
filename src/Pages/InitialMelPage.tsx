@@ -29,19 +29,48 @@ import Header from "../Components/Header";
 import Footer from "../Components/Footer";
 import { Link } from "react-router-dom";
 import { useState, DragEvent, ChangeEvent } from "react";
+import PascodeInputForm from "../Components/PascodeInputForm";
 
 const InitialMelPage = () => {
+    const [sessionId, setSessionId] = useState<string>('');
     const [dragActive, setDragActive] = useState(false);
     const [uploadedFile, setUploadedFile] = useState<File | null>(null);
     const [isProcessing, setIsProcessing] = useState<boolean>(false);
     const [processingError, setProcessingError] = useState<string | null>(null);
     const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
+    const [cycle, setCycle] = useState<string>('MSG');
+    const [year, setYear] = useState<string>('2025');
+    const [processComplete, setProcessComplete] = useState<boolean>(false);
+    const [pascodes, setPascodes] = useState<string []>([]);
+    const [pascodeFormSubmitted, setPascodeFormSubmitted] = useState<boolean>(false);
+    const [isSmallUnit, setIsSmallUnit] = useState<boolean>(false);
+    const [errorLog, setErrorLog] = useState<string[]>([]);
 
-    const uploadFile = async (file: File): Promise<{message: string, session_id: string}> => {
+
+    const cycleOptions = [
+        { value: 'SRA', label: 'SRA'},
+        { value: 'SSG', label: 'SSG'},
+        { value: 'TSG', label: 'TSG'},
+        { value: 'MSG', label: 'MSG'},
+        { value: 'SMS', label: 'SMS'},
+    ]
+
+    const yearOptions = [
+        { value: '2025', label: '2025' },
+        { value: '2026', label: '2026' }
+    ]
+
+    const uploadFile = async (file: File, cycle: string, year: string): Promise<{message: string, session_id: string, pascodes: string[] | undefined, senior_rater_needed: boolean, errors: string[]}> => {
         const formData = new FormData();
         formData.append('file', file);
+        if (cycle) {
+            formData.append('cycle', cycle)
+        }
+        if (year) {
+            formData.append('year', year);
+        }
         
-        const response = await fetch('http://localhost:8001/upload/initial-mel', {
+        const response = await fetch('http://localhost:8000/api/upload/initial-mel', {
             method: 'POST',
             body: formData
         });
@@ -55,27 +84,53 @@ const InitialMelPage = () => {
         return result;
     };
 
-const handleProcessRoster = async () => {
-    if (!uploadedFile) return;
-    
-    setIsProcessing(true);
-    setProcessingError(null);
-    setDownloadUrl(null);
-    
-    try {
-        const result = await uploadFile(uploadedFile);
-        console.log('Upload successful:', result.message);
-        console.log('Session ID:', result.session_id);
+    const handleProcessRoster = async () => {
+        if (!uploadedFile) return;
         
-        // If you're using the two-step approach with download URL:
-        setDownloadUrl(`http://localhost:8001/download/initial-mel/${result.session_id}`);
+        setIsProcessing(true);
+        setProcessingError(null);
+        setDownloadUrl(null);
         
-    } catch (error) {
-        setProcessingError(error instanceof Error ? error.message : 'Processing failed');
-    } finally {
-        setIsProcessing(false);
-    }
-};
+        try {
+            const result = await uploadFile(uploadedFile, cycle, year);
+
+            setSessionId(result.session_id);
+            setIsSmallUnit(result.senior_rater_needed);
+            setErrorLog(result.errors);
+
+            if (result.pascodes && result.pascodes?.length != 0) {
+                setPascodes(result.pascodes)
+                setProcessComplete(true);
+            }
+            // If you're using the two-step approach with download URL:
+            setDownloadUrl(`http://localhost:8000/api/download/initial-mel/${result.session_id}`);
+            
+        } catch (error) {
+            setProcessingError(error instanceof Error ? error.message : 'Processing failed');
+        } finally {
+            setIsProcessing(false);
+        }
+    };
+
+    const submitPascodeData = async (pascodeData: any) => {
+        const response = await fetch('http://localhost:8000/api/submit/pascode-info', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                pascode_info: pascodeData,
+                session_id: sessionId, // Link it to the original upload
+            }),
+        });
+        
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || errorData.detail || 'Submission failed');
+        }
+        
+        return await response.json();
+    };
 
     const handleDrag = (e: DragEvent<HTMLDivElement>) => {
         e.preventDefault();
@@ -116,12 +171,14 @@ const handleProcessRoster = async () => {
         "CAFSC"
     ];
 
+    const optionalColumns = ['GRADE_PERM_PROJ', 'UIF_CODE', 'UIF_DISPOSITION_DATE', '2AFSC', '3AFSC', '4AFSC'];
+
     return (
         <div className="flex flex-col min-h-screen">
             <Header />
             <main className="flex-grow pt-20">
                 <div className="flex flex-col items-center justify-center px-4">
-                    <div className="flex flex-col items-center justify-center max-w-4xl pt-8 space-y-8">
+                    <div className="flex flex-col items-center justify-center max-w-4xl pt-8 pb-8 space-y-8">
                         <h1 className="text-4xl font-poppins tracking-widest text-[#137bec]">Initial Mel</h1>
                         
                         {/* Introduction Section */}
@@ -181,6 +238,49 @@ const handleProcessRoster = async () => {
                                 )}
                             </div>
 
+                            <div className="flex items-center justify center pt-8">
+                                <div className="flex items-center justify-center w-[80vw] gap-20">
+                                    <div className="w-48">
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            Cycle
+                                        </label>
+                                        <select
+                                            value={cycle}
+                                            onChange={(e) => setCycle(e.target.value)}
+                                            className="w-full p-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                                        >
+                                            <option value="" disabled>
+                                                Select cycle
+                                            </option>
+                                            {cycleOptions.map((option) => (
+                                                <option key={option.value} value={option.value}>
+                                                    {option.label}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <div className="w-48">
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            Year
+                                        </label>
+                                        <select
+                                            value={year}
+                                            onChange={(e) => setYear(e.target.value)}
+                                            className="w-full p-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                                        >
+                                            <option value="" disabled>
+                                                Select year
+                                            </option>
+                                            {yearOptions.map((option) => (
+                                                <option key={option.value} value={option.value}>
+                                                    {option.label}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
                             {uploadedFile && (
                             <div className="mt-4 text-center space-y-4">
                                 {!downloadUrl && !processingError && (
@@ -191,6 +291,19 @@ const handleProcessRoster = async () => {
                                 >
                                     {isProcessing ? 'Processing...' : 'Process Roster'}
                                 </button>
+                                )}
+
+                                {processComplete && !pascodeFormSubmitted && (
+                                    <PascodeInputForm 
+                                        pascodes={pascodes}
+                                        error_log={errorLog}
+                                        small_unit={isSmallUnit}
+                                        onSubmit={(data) => {
+                                            console.log('Pascode data submitted:', data);
+                                            submitPascodeData(data);
+                                            setPascodeFormSubmitted(true); // Hide the form
+                                        }}
+                                    />
                                 )}
                                 
                                 {processingError && (
@@ -243,14 +356,14 @@ const handleProcessRoster = async () => {
                             </div>
                         </div>
 
-                        {/* Required Columns Section */}
+                        {/* Optional Columns Section */}
                         <div className="w-full max-w-2xl bg-gray-50 rounded-lg p-6">
                             <h3 className="text-xl font-semibold text-gray-800 mb-4">Optional Columns</h3>
                             <p className="text-gray-600 mb-4">
                                 Ensure your Excel file contains the following columns for optimal processing:
                             </p>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                                {requiredColumns.map((column, index) => (
+                                {optionalColumns.map((column, index) => (
                                     <div key={index} className="flex items-center space-x-2">
                                         <span className="text-green-600">✓</span>
                                         <span className="text-gray-700">{column}</span>
@@ -294,7 +407,7 @@ const handleProcessRoster = async () => {
                         </div>
 
                         {/* Help Section */}
-                        <div className="w-full max-w-2xl bg-yellow-50 rounded-lg p-6 border border-yellow-200">
+                        <div className="w-full max-w-2xl bg-yellow-50 rounded-lg p-6 border border-yellow-200 pb">
                             <h3 className="text-lg font-semibold text-gray-800 mb-2">Need Help?</h3>
                             <p className="text-gray-700 text-sm">
                                 If you're having trouble with file format or column requirements, visit our{" "}

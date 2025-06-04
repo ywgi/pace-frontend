@@ -22,7 +22,7 @@ import { Link } from "react-router-dom";
 const FinalMelPage = () => {
 
     const doThing = async () => {
-        fetch("http://localhost:8001/ping")
+        fetch("http://localhost:8000/api/ping")
         .then(res => res.json())
         .then(console.log)
         .catch(console.error);
