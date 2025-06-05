@@ -60,30 +60,6 @@ const InitialMelPage = () => {
         { value: '2026', label: '2026' }
     ]
 
-    // const uploadFile = async (file: File, cycle: string, year: string): Promise<{message: string, session_id: string, pascodes: string[] | undefined, senior_rater_needed: boolean, errors: string[]}> => {
-    //     const formData = new FormData();
-    //     formData.append('file', file);
-    //     if (cycle) {
-    //         formData.append('cycle', cycle)
-    //     }
-    //     if (year) {
-    //         formData.append('year', year);
-    //     }
-        
-    //     const response = await fetch('https://api.pace-tool-af.com/api/upload/initial-mel', {
-    //         method: 'POST',
-    //         body: formData
-    //     });
-        
-    //     if (!response.ok) {
-    //         const errorData = await response.json();
-    //         throw new Error(errorData.error || errorData.detail || 'Upload failed');
-    //     }
-        
-    //     const result = await response.json();
-    //     return result;
-    // };
-
     const uploadFile = async (file: File, cycle: string, year: string): Promise<{message: string, session_id: string, pascodes: string[] | undefined, senior_rater_needed: boolean, errors: string[]}> => {
         const formData = new FormData();
         formData.append('file', file);
@@ -109,33 +85,7 @@ const InitialMelPage = () => {
     };
 
 
-    // const handleProcessRoster = async () => {
-    //     if (!uploadedFile) return;
-        
-    //     setIsProcessing(true);
-    //     setProcessingError(null);
-    //     setDownloadUrl(null);
-        
-    //     try {
-    //         const result = await uploadFile(uploadedFile, cycle, year);
 
-    //         setSessionId(result.session_id);
-    //         setIsSmallUnit(result.senior_rater_needed);
-    //         setErrorLog(result.errors);
-
-    //         if (result.pascodes && result.pascodes?.length != 0) {
-    //             setPascodes(result.pascodes)
-    //             setProcessComplete(true);
-    //         }
-    //         // If you're using the two-step approach with download URL:
-    //         setDownloadUrl(`https://api.pace-tool-af.com/api/download/initial-mel/${result.session_id}`);
-            
-    //     } catch (error) {
-    //         setProcessingError(error instanceof Error ? error.message : 'Processing failed');
-    //     } finally {
-    //         setIsProcessing(false);
-    //     }
-    // };
 
     const handleProcessRoster = async () => {
         if (!uploadedFile) return;
@@ -157,7 +107,7 @@ const InitialMelPage = () => {
             }
             // If you're using the two-step approach with download URL:
             setDownloadUrl(`https://octopus-app-bot9a.ondigitalocean.app/api/download/initial-mel/${result.session_id}`);
-            
+
         } catch (error) {
             setProcessingError(error instanceof Error ? error.message : 'Processing failed');
         } finally {
@@ -176,13 +126,24 @@ const InitialMelPage = () => {
                 session_id: sessionId, // Link it to the original upload
             }),
         });
-        
+
         if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.error || errorData.detail || 'Submission failed');
+            try {
+                const errorData = await response.json();
+                throw new Error(errorData.error || errorData.detail || 'Submission failed');
+            } catch {
+                throw new Error('Submission failed and response is not JSON');
+            }
         }
-        
-        return await response.json();
+
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'initial_mel_roster.pdf';
+        link.click();
+        window.URL.revokeObjectURL(url);
     };
 
     const handleDrag = (e: DragEvent<HTMLDivElement>) => {
