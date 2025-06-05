@@ -5,6 +5,8 @@ import Header from "../Components/Header";
 // import f22sImage from '../assets/f22s.jpg'; // Adjust the path if needed
 // import fighters from '../assets/fighters.jpg'
 import fighters2 from '../assets/fighters2.jpg'
+import laptopImage from '../assets/laptop.jpg'; // adjust path as needed
+
 
 import { ChartSpline, SendHorizontal, Zap, CircleArrowRight } from "lucide-react";
 
@@ -103,7 +105,7 @@ const HomePage = () => {
                         </div>
                         <div 
                             className="relative flex w-full h-[50vh] bg-cover bg-center" 
-                            style={{ backgroundImage: "url('/src/assets/laptop.jpg')" }}
+                              style={{ backgroundImage: `url(${laptopImage})` }}
                             >
                             <div className="absolute inset-0 bg-black/50 flex justify-center items-center">
                                 <div className="h-[80%] w-[90%] max-w-7xl flex flex-col md:flex-row rounded-2xl overflow-hidden shadow-lg backdrop-blur-sm">
