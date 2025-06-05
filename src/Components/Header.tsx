@@ -53,11 +53,11 @@ const Header = () => {
                         </nav>
                     </div>
                 </div>
-                <div className="w-[10vw] flex justify-center items-center">
+                {/* <div className="w-[10vw] flex justify-center items-center">
                     <button className="rounded-md border-2 border-blue-700 p-3 hover:bg-blue-700 hover:text-white">
                         Contact Us
                     </button>
-                </div>
+                </div> */}
             </div>
         </header>
     );

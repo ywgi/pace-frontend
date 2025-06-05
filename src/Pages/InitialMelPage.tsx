@@ -336,13 +336,6 @@ const InitialMelPage = () => {
                                 {downloadUrl && (
                                 <div className="space-y-2">
                                     <div className="text-green-600 font-medium">✓ Processing Complete!</div>
-                                    <a 
-                                    href={downloadUrl}
-                                    download
-                                    className="inline-block bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors font-medium"
-                                    >
-                                    Download PDF
-                                    </a>
                                 </div>
                                 )}
                             </div>

@@ -103,7 +103,7 @@ const HomePage = () => {
                         </div>
                         <div 
                             className="relative flex w-full h-[50vh] bg-cover bg-center" 
-                            style={{ backgroundImage: "url('/src/assets/tech-bg.jpg')" }}
+                            style={{ backgroundImage: "url('/src/assets/laptop.jpg')" }}
                             >
                             <div className="absolute inset-0 bg-black/50 flex justify-center items-center">
                                 <div className="h-[80%] w-[90%] max-w-7xl flex flex-col md:flex-row rounded-2xl overflow-hidden shadow-lg backdrop-blur-sm">
@@ -140,16 +140,16 @@ const HomePage = () => {
 
                                     {/* Right Panel (Red box replacement) */}
                                     <div className="flex flex-col w-full md:w-1/2 backdrop-blur-sm p-6 md:p-10 text-white">
-                                    <div className="flex-1 flex flex-col justify-center items-center text-center">
-                                        <h2 className="text-3xl font-bold mb-4">Get Involved</h2>
-                                        <p className="text-lg mb-6 max-w-md">
-                                        Whether you're active duty, a developer, or a supporter — your input matters.
-                                        Join us in shaping tools that actually make your life easier.
-                                        </p>
-                                        <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl transition-all duration-300">
-                                        Join Our Mission
-                                        </button>
-                                    </div>
+                                        <div className="flex-1 flex flex-col justify-center items-center text-center">
+                                            <h2 className="text-3xl font-bold mb-4">Get Involved</h2>
+                                            <p className="text-lg mb-6 max-w-md">
+                                                Whether you're active duty, a developer, or a supporter — your input matters.
+                                                Join us in shaping tools that actually make your life easier.
+                                            </p>
+                                            <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl transition-all duration-300">
+                                                Join Our Mission
+                                            </button>
+                                        </div>
                                     </div>
 
                                 </div>
