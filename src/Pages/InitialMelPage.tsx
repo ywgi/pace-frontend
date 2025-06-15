@@ -80,7 +80,7 @@ const InitialMelPage = () => {
             formData.append('year', year);
         }
         
-        const response = await fetch('https://pace-af-tool.com/api/upload/initial-mel', {
+        const response = await fetch('https://api.pace-af-tool.com/api/upload/initial-mel', {
             method: 'POST',
             body: formData
         });
@@ -120,7 +120,7 @@ const InitialMelPage = () => {
                 setPascodeUnitMap(result.pascode_unit_map);
             }
             // If you're using the two-step approach with download URL:
-            setDownloadUrl(`https://pace-af-tool.com/api/download/initial-mel/${result.session_id}`);
+            setDownloadUrl(`https://api.pace-af-tool.com/api/download/initial-mel/${result.session_id}`);
 
         } catch (error) {
             setProcessingError(error instanceof Error ? error.message : 'Processing failed');
@@ -130,7 +130,7 @@ const InitialMelPage = () => {
     };
 
     const submitPascodeData = async (pascodeData: any) => {
-        const response = await fetch('https://pace-af-tool.com/api/submit/pascode-info', {
+        const response = await fetch('https://api.pace-af-tool.com/api/submit/pascode-info', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
