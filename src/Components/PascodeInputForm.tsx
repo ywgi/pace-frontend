@@ -104,7 +104,7 @@ const PascodeInputForm: React.FC<PascodeInputFormProps> = ({ pascodes = [], erro
                     htmlFor={`${pascode}-name`}
                     className="text-sm font-medium text-gray-700 mb-1"
                   >
-                    Senior Rater Name
+                    Unit Commander Name
                   </label>
                   <input
                     id={`${pascode}-name`}
@@ -121,7 +121,7 @@ const PascodeInputForm: React.FC<PascodeInputFormProps> = ({ pascodes = [], erro
                     htmlFor={`${pascode}-rank`}
                     className="text-sm font-medium text-gray-700 mb-1"
                   >
-                    Senior Rater Rank
+                    Rank
                   </label>
                   <input
                     id={`${pascode}-rank`}
@@ -138,7 +138,7 @@ const PascodeInputForm: React.FC<PascodeInputFormProps> = ({ pascodes = [], erro
                     htmlFor={`${pascode}-title`}
                     className="text-sm font-medium text-gray-700 mb-1"
                   >
-                    Senior Rater Title
+                    Duty Title
                   </label>
                   <input
                     id={`${pascode}-title`}
