@@ -42,10 +42,20 @@ const InitialMelPage = () => {
     const [year, setYear] = useState<string>('2025');
     const [processComplete, setProcessComplete] = useState<boolean>(false);
     const [pascodes, setPascodes] = useState<string []>([]);
+    const [pascodeUnitMap, setPascodeUnitMap] = useState<Record<string, string>>();
     const [pascodeFormSubmitted, setPascodeFormSubmitted] = useState<boolean>(false);
     const [isSmallUnit, setIsSmallUnit] = useState<boolean>(false);
     const [errorLog, setErrorLog] = useState<string[]>([]);
 
+
+    interface PascodeData {
+        [key: string]: {
+            srid: string;
+            senior_rater_name: string;
+            senior_rater_rank: string;
+            senior_rater_title: string;
+        };
+    }
 
     const cycleOptions = [
         { value: 'SRA', label: 'SRA'},
@@ -60,7 +70,7 @@ const InitialMelPage = () => {
         { value: '2026', label: '2026' }
     ]
 
-    const uploadFile = async (file: File, cycle: string, year: string): Promise<{message: string, session_id: string, pascodes: string[] | undefined, senior_rater_needed: boolean, errors: string[]}> => {
+    const uploadFile = async (file: File, cycle: string, year: string): Promise<{message: string, session_id: string, pascodes: string[] | undefined, senior_rater_needed: boolean, pascode_unit_map: Record<string, string> | undefined ,errors: string[]}> => {
         const formData = new FormData();
         formData.append('file', file);
         if (cycle) {
@@ -70,7 +80,7 @@ const InitialMelPage = () => {
             formData.append('year', year);
         }
         
-        const response = await fetch('https://api.pace-af-tool.com/api/upload/initial-mel', {
+        const response = await fetch('https://pace-af-tool.com/api/upload/initial-mel', {
             method: 'POST',
             body: formData
         });
@@ -102,11 +112,15 @@ const InitialMelPage = () => {
             setErrorLog(result.errors);
 
             if (result.pascodes && result.pascodes?.length != 0) {
-                setPascodes(result.pascodes)
+                setPascodes(result.pascodes);
                 setProcessComplete(true);
             }
+
+            if (result.pascode_unit_map) {
+                setPascodeUnitMap(result.pascode_unit_map);
+            }
             // If you're using the two-step approach with download URL:
-            setDownloadUrl(`https://api.pace-af-tool.com/api/download/initial-mel/${result.session_id}`);
+            setDownloadUrl(`https://pace-af-tool.com/api/download/initial-mel/${result.session_id}`);
 
         } catch (error) {
             setProcessingError(error instanceof Error ? error.message : 'Processing failed');
@@ -116,7 +130,7 @@ const InitialMelPage = () => {
     };
 
     const submitPascodeData = async (pascodeData: any) => {
-        const response = await fetch('https://api.pace-af-tool.com/api/submit/pascode-info', {
+        const response = await fetch('https://pace-af-tool.com/api/submit/pascode-info', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -144,6 +158,24 @@ const InitialMelPage = () => {
         link.download = 'initial_mel_roster.pdf';
         link.click();
         window.URL.revokeObjectURL(url);
+    };
+    
+    const sanitizePascodeData = (data: PascodeData): PascodeData => {
+        const sanitized: PascodeData = {};
+
+        console.log(data);
+
+        for (const pascode in data) {
+            const entry = data[pascode];
+            sanitized[pascode] = {
+            srid: entry.srid?.trim() || 'SRID',
+            senior_rater_name: entry.senior_rater_name?.trim() || 'First M. Last',
+            senior_rater_rank: entry.senior_rater_rank?.trim() || 'Rank',
+            senior_rater_title: entry.senior_rater_title?.trim() || 'Duty Title',
+            };
+        }
+
+        return sanitized;
     };
 
     const handleDrag = (e: DragEvent<HTMLDivElement>) => {
@@ -185,7 +217,14 @@ const InitialMelPage = () => {
         "CAFSC"
     ];
 
-    const optionalColumns = ['GRADE_PERM_PROJ', 'UIF_CODE', 'UIF_DISPOSITION_DATE', '2AFSC', '3AFSC', '4AFSC'];
+    const optionalColumns = [
+        'GRADE_PERM_PROJ', 
+        'UIF_CODE', 
+        'UIF_DISPOSITION_DATE', 
+        '2AFSC', 
+        '3AFSC', 
+        '4AFSC'
+    ];
 
     return (
         <div className="flex flex-col min-h-screen">
@@ -310,11 +349,12 @@ const InitialMelPage = () => {
                                 {processComplete && !pascodeFormSubmitted && (
                                     <PascodeInputForm 
                                         pascodes={pascodes}
+                                        pascode_unit_map={pascodeUnitMap}
                                         error_log={errorLog}
                                         small_unit={isSmallUnit}
                                         onSubmit={(data) => {
-                                            console.log('Pascode data submitted:', data);
-                                            submitPascodeData(data);
+                                            const sanitizedData = sanitizePascodeData(data);
+                                            submitPascodeData(sanitizedData);
                                             setPascodeFormSubmitted(true); // Hide the form
                                         }}
                                     />

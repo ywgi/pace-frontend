@@ -12,11 +12,12 @@ interface PascodeData {
 interface PascodeInputFormProps {
   pascodes?: string[];
   small_unit: boolean,
+  pascode_unit_map?: Record<string, string>,
   error_log: string[],
   onSubmit?: (data: PascodeData) => void;
 }
 
-const PascodeInputForm: React.FC<PascodeInputFormProps> = ({ pascodes = [], error_log,  small_unit, onSubmit }) => {
+const PascodeInputForm: React.FC<PascodeInputFormProps> = ({ pascodes = [], pascode_unit_map, error_log,  small_unit, onSubmit }) => {
 
   const [pascodeData, setPascodeData] = useState<PascodeData>(() => {
     const initialData: PascodeData = {};
@@ -30,6 +31,16 @@ const PascodeInputForm: React.FC<PascodeInputFormProps> = ({ pascodes = [], erro
         };
       });
     }
+
+    if (small_unit) {
+      initialData['small_unit_sr'] = {
+        srid: '',
+        senior_rater_name: '',
+        senior_rater_rank: '',
+        senior_rater_title: ''
+      };
+    }
+    
     return initialData;
   });
 
@@ -69,7 +80,7 @@ const PascodeInputForm: React.FC<PascodeInputFormProps> = ({ pascodes = [], erro
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
       <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
-        Senior Rater Information Entry
+        EFDP Information Entry
       </h2>
       
       <div className="space-y-6">
@@ -80,7 +91,7 @@ const PascodeInputForm: React.FC<PascodeInputFormProps> = ({ pascodes = [], erro
         ) : (
           pascodes.map((pascode) => (
             <div key={pascode} className="p-4 border border-gray-200 rounded-lg bg-gray-50">
-              <h3 className="text-lg font-semibold text-gray-800 mb-3">{pascode}</h3>
+              <h3 className="text-lg font-semibold text-gray-800 mb-3">{pascode} : {pascode_unit_map?.[pascode] ?? 'Unknown Unit'}</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="flex flex-col">
                   <label 
@@ -111,7 +122,7 @@ const PascodeInputForm: React.FC<PascodeInputFormProps> = ({ pascodes = [], erro
                     type="text"
                     value={pascodeData[pascode]?.senior_rater_name || ''}
                     onChange={(e) => handleInputChange(pascode, 'senior_rater_name', e.target.value)}
-                    placeholder="Enter senior rater name"
+                    placeholder="Unit Commander Name"
                     className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
@@ -128,7 +139,7 @@ const PascodeInputForm: React.FC<PascodeInputFormProps> = ({ pascodes = [], erro
                     type="text"
                     value={pascodeData[pascode]?.senior_rater_rank || ''}
                     onChange={(e) => handleInputChange(pascode, 'senior_rater_rank', e.target.value)}
-                    placeholder="Enter senior rater rank"
+                    placeholder="Rank"
                     className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
@@ -145,7 +156,7 @@ const PascodeInputForm: React.FC<PascodeInputFormProps> = ({ pascodes = [], erro
                     type="text"
                     value={pascodeData[pascode]?.senior_rater_title || ''}
                     onChange={(e) => handleInputChange(pascode, 'senior_rater_title', e.target.value)}
-                    placeholder="Enter senior rater title"
+                    placeholder="Duty Title"
                     className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
@@ -156,7 +167,7 @@ const PascodeInputForm: React.FC<PascodeInputFormProps> = ({ pascodes = [], erro
 
         {small_unit && (
             <div className="p-4 border border-gray-200 rounded-lg bg-gray-50">
-              <h3 className="text-lg font-semibold text-gray-800 mb-3">Small Unit Senior Rater</h3>
+              <h3 className="text-lg font-semibold text-gray-800 mb-3">Senior Rater Entry</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="flex flex-col">
                   <label 
@@ -260,27 +271,5 @@ const PascodeInputForm: React.FC<PascodeInputFormProps> = ({ pascodes = [], erro
   );
 };
 
-// Example usage:
-// const App = () => {
-//   const myPascodes = [
-//     "OP0RFGDF",
-//     "OP0RFGMK", 
-//     "OP0RFGSB",
-//     "OP0RFJ0R",
-//     "OP0RFWNM"
-//   ];
-//
-//   const handleFormSubmit = (data: PascodeData) => {
-//     console.log('Form submitted with data:', data);
-//     // Send to API, update parent state, etc.
-//   };
-//
-//   return (
-//     <PascodeInputForm 
-//       pascodes={myPascodes} 
-//       onSubmit={handleFormSubmit}
-//     />
-//   );
-// };
 
 export default PascodeInputForm;
