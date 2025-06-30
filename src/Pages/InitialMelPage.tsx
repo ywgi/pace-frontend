@@ -130,7 +130,7 @@ const InitialMelPage = () => {
     };
 
     const submitPascodeData = async (pascodeData: any) => {
-        const response = await fetch('https://api.pace-af-tool.com/api/submit/pascode-info', {
+        const response = await fetch('https://api.pace-af-tool.com/api/initial-mel/submit/pascode-info', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
