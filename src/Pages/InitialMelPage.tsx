@@ -374,8 +374,29 @@ const InitialMelPage = () => {
                                 )}
                                 
                                 {downloadUrl && (
-                                <div className="space-y-2">
+                                <div className="space-y-2 text-center">
                                     <div className="text-green-600 font-medium">✓ Processing Complete!</div>
+                                    <button
+                                    onClick={() => {
+                                        setSessionId('');
+                                        setDragActive(false);
+                                        setUploadedFile(null);
+                                        setIsProcessing(false);
+                                        setProcessingError(null);
+                                        setDownloadUrl(null);
+                                        setCycle('MSG');
+                                        setYear('2025');
+                                        setProcessComplete(false);
+                                        setPascodes([]);
+                                        setPascodeUnitMap(undefined);
+                                        setPascodeFormSubmitted(false);
+                                        setIsSmallUnit(false);
+                                        setErrorLog([]);
+                                    }}
+                                    className="inline-block bg-[#137bec] text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-600 transition-colors"
+                                    >
+                                    Process Another
+                                    </button>
                                 </div>
                                 )}
                             </div>
