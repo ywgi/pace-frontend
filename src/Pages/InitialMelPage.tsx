@@ -35,6 +35,7 @@ const InitialMelPage = () => {
     const [sessionId, setSessionId] = useState<string>('');
     const [dragActive, setDragActive] = useState(false);
     const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+    const [fileInputKey, setFileInputKey] = useState<number>(0);
     const [isProcessing, setIsProcessing] = useState<boolean>(false);
     const [processingError, setProcessingError] = useState<string | null>(null);
     const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
@@ -258,6 +259,7 @@ const InitialMelPage = () => {
                                 onDrop={handleDrop}
                             >
                                 <input
+                                    key={fileInputKey} 
                                     type="file"
                                     accept=".xlsx,.xls"
                                     onChange={handleFileSelect}
@@ -392,6 +394,8 @@ const InitialMelPage = () => {
                                         setPascodeFormSubmitted(false);
                                         setIsSmallUnit(false);
                                         setErrorLog([]);
+                                        setFileInputKey(prev => prev + 1); // 👈 force file input reset
+
                                     }}
                                     className="inline-block bg-[#137bec] text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-600 transition-colors"
                                     >
