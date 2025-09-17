@@ -11,9 +11,9 @@ const Footer = () => {
                         <Link to="how-to">
                             <li className='font-poppins text-gray-300 hover:text-gray-100 hover:scale-110 before:transition-transform duration-300'>How To</li>
                         </Link>
-                        <Link to="/about-us">
+                        {/* <Link to="/about-us">
                             <li className='font-poppins text-gray-300 hover:text-gray-100 hover:scale-110 before:transition-transform duration-300'>About Us</li>
-                        </Link>
+                        </Link> */}
                     </ul>
                 </div>
                 <div className='flex justify-center items-center w-[33%]'>

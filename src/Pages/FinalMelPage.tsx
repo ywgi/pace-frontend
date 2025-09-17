@@ -11,7 +11,7 @@ const FinalMelPage = () => {
     const [isProcessing, setIsProcessing] = useState<boolean>(false);
     const [processingError, setProcessingError] = useState<string | null>(null);
     const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
-    const [cycle, setCycle] = useState<string>('MSG');
+    const [cycle, setCycle] = useState<string>('TSG');
     const [year, setYear] = useState<string>('2025');
     const [processComplete, setProcessComplete] = useState<boolean>(false);
     const [pascodes, setPascodes] = useState<string []>([]);
@@ -66,8 +66,6 @@ const FinalMelPage = () => {
         const result = await response.json();
         return result;
     };
-
-
 
 
     const handleProcessRoster = async () => {
@@ -187,7 +185,7 @@ const FinalMelPage = () => {
         "TAFMSD",
         "REENL_ELIG_STATUS",
         "ASSIGNED_PAS",
-        "CAFSC"
+        "PAFSC"
     ];
 
     const optionalColumns = [
@@ -197,6 +195,65 @@ const FinalMelPage = () => {
         '2AFSC', 
         '3AFSC', 
         '4AFSC'
+    ];
+
+    const removeColumnns = [
+        'SSAN',
+        'RECORD_STATUS',
+        'OFFICE_SYMBOL',
+        'DUTY_TITLE',
+        'DUTY_START_DATE',
+        'DUTY_PHONE',
+        'DATE_OF_BIRTH',
+        'HOME_ADDRESS',
+        'HOME_CITY',
+        'HOME_STATE',
+        'HOME_ZIP_CODE',
+        'SUPV_NAME',
+        'PROJ_EVAL_CLOSE_DATE',
+        'MARITAL_STATUS',
+        'RNLTD',
+        'GAINING_PAS',
+        'GAINING_PAS_CLEARTEXT',
+        'LAST_EVAL_RATING',
+        'LAST_EVAL_CLOSE_DATE',
+        'PERF_INDICATOR',
+        'SPOUSE_SSAN',
+        'SUPV_BEGIN_DATE',
+        'HOME_PHONE_NUMBER',
+        'AGE',
+        'DEROS',
+        'DEPLOY_ADMIN_STATUS',
+        'DEPLOY_ADMIN_STATUS_CLEARTEXT',
+        'DEPLOY_ADMIN_STOP_DATE',
+        'DEPLOY_LEGAL_STATUS',
+        'DEPLOY_LEGAL_STATUS_CLEARTEXT',
+        'DEPLOY_LEGAL_STOP_DATE',
+        'DEPLOY_PHYS_STATUS',
+        'DEPLOY_PHYS_STATUS_CLEARTEXT',
+        'DEPLOY_PHYS_STOP_DATE',
+        'DEPLOY_TIME_STATUS',
+        'DEPLOY_TIME_STATUS_CLEARTEXT',
+        'DEPLOY_TIME_STOP_DATE',
+        'AVAILABILITY_CODE',
+        'AVAILABILITY_CODE_CLEARTEXT',
+        'AVAILABILITY_DATE',
+        'AVAILABILITY_STATUS',
+        'AVAILABILITY_STATUS_CLEARTEXT',
+        'LIMITATION_CODE',
+        'LIMITATION_CODE_CLEARTEXT',
+        'LIMITATION_END_DATE',
+        'SEC_CLR',
+        'TYPE_SEC_INV',
+        'DT_SCTY_INVES_COMPL',
+        'SEC_ELIG_DT',
+        'TECH_ID',
+        'ACDU_STATUS',
+        'ANG_ROLL_INDICATOR',
+        'AFR_SECTION_ID',
+        'CIVILIAN_ART_ID',
+        'ATTACHED_PAS',
+        'FUNCTIONAL_CATEGORY'
     ];
 
     return (
@@ -210,9 +267,9 @@ const FinalMelPage = () => {
                         {/* Introduction Section */}
                         <div className="text-center space-y-4">
                             <p className="text-lg text-gray-700">
-                                Upload your base roster in Excel format and we'll take care of the rest. If you don't understand what our 
-                                process is, feel free to check out our <Link to="/how-to"><span className="font-bold text-[#137bec] hover:underline">how to</span></Link> section 
-                                to familiarize yourself with our product. You can also verify that your document contains the required columns to ensure smooth processing.
+                                Upload your Unit Roster from BLSDM, and we’ll handle the rest.
+                                Not sure how our process works? Visit our  <Link to="/how-to"><span className="font-bold text-[#137bec] hover:underline">how to</span></Link> section for a quick walkthrough.
+                                Before uploading, make sure your file includes the required columns to ensure everything runs smoothly.
                             </p>
                         </div>
 
@@ -376,9 +433,13 @@ const FinalMelPage = () => {
                             )}
                         </div>
 
+                        <div className="w-full max-w-2xl bg-gray-50 rounded-lg p-6">
+                            <h3 className="text-xl font-semibold text-gray-800 mb-4">The year selection is for the calendar year that the cycle closes out (ex: 31 March 2026 would use 2026).</h3>
+                        </div>
+
                         {/* Required Columns Section */}
                         <div className="w-full max-w-2xl bg-gray-50 rounded-lg p-6">
-                            <h3 className="text-xl font-semibold text-gray-800 mb-4">Required Columns</h3>
+                            <h3 className="text-xl font-semibold text-gray-800 mb-4">Required Columns (can't be blank)</h3>
                             <p className="text-gray-600 mb-4">
                                 Ensure your Excel file contains the following columns for successful processing:
                             </p>
@@ -399,9 +460,9 @@ const FinalMelPage = () => {
 
                         {/* Optional Columns Section */}
                         <div className="w-full max-w-2xl bg-gray-50 rounded-lg p-6">
-                            <h3 className="text-xl font-semibold text-gray-800 mb-4">Optional Columns</h3>
+                            <h3 className="text-xl font-semibold text-gray-800 mb-4">Additional Columns (STILL NECESSARY, but will process if blank)</h3>
                             <p className="text-gray-600 mb-4">
-                                Ensure your Excel file contains the following columns for optimal processing:
+                                These columns are essential for proper processing and categorization of service members, but in some cases these fields are blank.
                             </p>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                                 {optionalColumns.map((column, index) => (
@@ -414,13 +475,29 @@ const FinalMelPage = () => {
                             <div className="mt-4 p-3 bg-blue-50 rounded border-l-4 border-[#137bec]">
                                 <p className="text-sm text-gray-700">
                                     <strong>Note:</strong> Column names must match exactly (case-sensitive). 
-                                
+                            
                                 </p>
+                            </div>
+                        </div>
+                        
+                        <div className="w-full max-w-2xl bg-gray-50 rounded-lg p-6">
+                            <h3 className="text-xl font-semibold text-gray-800 mb-4">Remove these columns</h3>
+                            <p className="text-gray-600 mb-4">
+                                These columns are not necessary for processing and may contain PII or other sensitive information that we would advise you not to upload.
+                                While we do not store any data, removal of PII ensures we can continue to provide you MEL generation services.
+                            </p>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                {removeColumnns.map((column, index) => (
+                                    <div key={index} className="flex items-center space-x-2">
+                                        <span className="text-green-600">✓</span>
+                                        <span className="text-gray-700">{column}</span>
+                                    </div>
+                                ))}
                             </div>
                         </div>
 
                         {/* Process Overview */}
-                        <div className="w-full max-w-2xl">
+                        {/* <div className="w-full max-w-2xl">
                             <h3 className="text-xl font-semibold text-gray-800 mb-4 text-center">What Happens Next?</h3>
                             <div className="space-y-4">
                                 <div className="flex items-start space-x-4">
@@ -445,7 +522,7 @@ const FinalMelPage = () => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
 
                         {/* Help Section */}
                         <div className="w-full max-w-2xl bg-yellow-50 rounded-lg p-6 border border-yellow-200 pb">

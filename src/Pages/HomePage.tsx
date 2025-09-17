@@ -85,13 +85,13 @@ const HomePage = () => {
                             <div className="w-full h-full max-w-[70vw] flex">
                                 <div className="w-1/3 flex justify-center items-center">
                                     <div className="h-[80%] w-[80%] bg-white flex flex-col justify-center items-center space-y-10 rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.1)] hover:scale-105 transition-transform duration-300">
-                                        <CountUp target={1} />
+                                        <CountUp target={12} />
                                         <p className="font-poppins font-semibold text-2xl">Bases Automating MELs</p>
                                     </div>
                                 </div>
                                 <div className="w-1/3 flex justify-center items-center">
                                     <div className="h-[80%] w-[80%] bg-white flex flex-col justify-center items-center space-y-10 rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.1)] hover:scale-105 transition-transform duration-300">
-                                        <CountUp target={70} />
+                                        <CountUp target={1000} />
                                         <p className="font-poppins font-semibold text-2xl">MEL documents processed</p>
                                     </div>
                                 </div>

@@ -43,12 +43,12 @@ const Header = () => {
                                         How To
                                     </Link>
                                 </li>
-                                <li>
+                                {/* <li>
                                     <Link to="/about-us"
                                         className='inline-block font-sans font-semibold text-xl text-blue-700 hover:scale-110 transition-transform duration-300'>
                                         About Us
                                     </Link>
-                                </li>
+                                </li> */}
                             </ul>
                         </nav>
                     </div>
